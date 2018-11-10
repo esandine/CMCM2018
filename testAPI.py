@@ -56,11 +56,42 @@ def gentimematrix(lcoors):
     return timetable
 
 def saveMatrix(M,filename):
+    retstr=""
+    i=0
+    j=0
+    while i<len(M):
+        while j< len(M[i]):
+            retstr+=str(M[i][j])
+            retstr+=" "
+            j=j+1
+        retstr=retstr[:-1]
+        retstr+='; '
+        j=0
+        i=i+1
+    retstr=retstr[:-2]
     f=open(filename,"w")
-    f.write(np.array2string(M))
+    f.write(retstr)
     f.close()
 
-A=listpoints(42.448953, -76.510167,42.442882, -76.494302,2,3)
-A = gentimematrix(A)
-print A
-saveMatrix(A,"twobythree.txt")
+def readMatrix(filename):
+    f=open(filename,"r")
+    input=f.read()
+    f.close()
+    aSplit = input.split('; ')
+    l = []
+    for item in aSplit:
+        print "oneret"
+        subl = []
+        for num in item.split(' '):
+            subl.append(float(num))
+        l.append(subl)
+            
+    return l
+#print readMatrix("twobythree.txt")
+#A=listpoints(42.448953, -76.510167,42.442882, -76.494302,2,3)
+#A = gentimematrix(A)
+#print A
+#saveMatrix(A,"twobythree.txt")
+A=np.array([[1,2,3],[3,3,4]])
+saveMatrix(A,'testreadwrite.txt')
+print readMatrix('testreadwrite.txt')[1][1]
