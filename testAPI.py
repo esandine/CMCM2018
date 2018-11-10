@@ -37,22 +37,16 @@ def listpoints(lat_1,long_1,lat_2,long_2,m,n):
         for j in range(1,n+1):
             i=i*1.0
             j=j*1.0
-            print(1-(j-1)/(n-1))
-                
             l.append(((1-(i-1)/(m-1))*lat_1+(i-1)/(m-1)*lat_2,(1-(j-1)/(n-1))*long_1+(j-1)/(n-1)*long_2))
     return l
 
 def gentimematrix(lcoors):
     n=len(lcoors)
-    timetable=np.empty((n,n))
-    for i in range(1,n):
-        for j in range(1,n):
+    timetable=np.zeros((n,n),int)
+    for i in range(0,n):
+        for j in range(0,n):
             if i<j:
                 timetable[i][j]=gettime(lcoors[i][0],lcoors[i][1],lcoors[j][0],lcoors[j][1])
-                print timetable[i][j]
-            else:
-                timetable[i][j]=0
-    
     return timetable
 
 def saveMatrix(M,filename):
@@ -80,18 +74,14 @@ def readMatrix(filename):
     aSplit = input.split('; ')
     l = []
     for item in aSplit:
-        print "oneret"
         subl = []
         for num in item.split(' '):
             subl.append(float(num))
         l.append(subl)
             
-    return l
-#print readMatrix("twobythree.txt")
-#A=listpoints(42.448953, -76.510167,42.442882, -76.494302,2,3)
-#A = gentimematrix(A)
-#print A
-#saveMatrix(A,"twobythree.txt")
-A=np.array([[1,2,3],[3,3,4]])
-saveMatrix(A,'testreadwrite.txt')
-print readMatrix('testreadwrite.txt')[1][1]
+    return np.array(l)
+
+A=listpoints(42.448953, -76.510167,42.442882, -76.494302,2,3)
+A = gentimematrix(A)
+saveMatrix(A,"twobythree.txt")
+print np.array2string(readMatrix("twobythree.txt"))
