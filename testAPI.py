@@ -55,6 +55,12 @@ def gentimematrix(lcoors):
     
     return timetable
 
+def saveMatrix(M,filename):
+    f=open(filename,"w")
+    f.write(np.array2string(M))
+    f.close()
+
 A=listpoints(42.448953, -76.510167,42.442882, -76.494302,2,3)
 A = gentimematrix(A)
 print A
+saveMatrix(A,"twobythree.txt")
