@@ -31,13 +31,14 @@ def gettime(long_1,lat_1,long_2,lat_2):
 #print gettime(42.443164, -76.494008,42.436991, -76.510420)
 
 #creates a list of n*m points that fill up the rectangle with upper left and lower right given by the coordinates, with m dots in the latitude direction, and n dots in the longitude direction
-def listpoints(lat_1,long_1,lat_2,long_2,m,n):
+def listpoints(lat_1,long_1,lat_2,long_2,m,n,badstuff):
     l=[]
     for i in range(1,m+1):
         for j in range(1,n+1):
             i=i*1.0
             j=j*1.0
-            l.append(((1-(i-1)/(m-1))*lat_1+(i-1)/(m-1)*lat_2,(1-(j-1)/(n-1))*long_1+(j-1)/(n-1)*long_2))
+            if (i,j) not in badstuff:
+                l.append(((1-(i-1)/(m-1))*lat_1+(i-1)/(m-1)*lat_2,(1-(j-1)/(n-1))*long_1+(j-1)/(n-1)*long_2))
     return l
 
 def gentimematrix(lcoors):
@@ -46,7 +47,8 @@ def gentimematrix(lcoors):
     for i in range(0,n):
         for j in range(0,n):
             if i<j:
-                timetable[i][j]=gettime(lcoors[i][0],lcoors[i][1],lcoors[j][0],lcoors[j][1])
+                #timetable[i][j]=gettime(lcoors[i][0],lcoors[i][1],lcoors[j][0],lcoors[j][1])
+                timetable[i][j]=12.34
     return timetable
 
 def saveMatrix(M,filename):
@@ -81,7 +83,8 @@ def readMatrix(filename):
             
     return np.array(l)
 
-A=listpoints(42.448953, -76.510167,42.442882, -76.494302,2,3)
+A=listpoints(42.456495, -76.526707,42.431234, -76.474146,20,20,[])
+print(A)
 A = gentimematrix(A)
-saveMatrix(A,"twobythree.txt")
-print np.array2string(readMatrix("twobythree.txt"))
+saveMatrix(A,"fakecalls.txt")
+print np.array2string(readMatrix("fakecalls.txt"))
